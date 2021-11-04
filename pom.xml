@@ -21,36 +21,79 @@
         <failOnError>true</failOnError>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-kubernetes-dependencies</artifactId>
+                <version>0.3.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>io.fabric8</groupId>-->
+<!--                <artifactId>docker-maven-plugin</artifactId>-->
+<!--                <version>0.37.0</version>-->
+<!--                <configuration>-->
+<!--                    <skip>true</skip>-->
+<!--                    <images>-->
+<!--                        <image>-->
+<!--                            <name>%a:%l</name>-->
+<!--                            <build>-->
+<!--                                <from>https://192.168.99.102:8443/adoptopenjdk/openjdk8</from>-->
+<!--                                <tags>-->
+<!--                                    <tag>latest</tag>-->
+<!--                                </tags>-->
+<!--                                <assembly>-->
+<!--                                    <descriptorRef>artifact-with-dependencies</descriptorRef>-->
+<!--                                </assembly>-->
+<!--                            </build>-->
+<!--                        </image>-->
+<!--                    </images>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.37.0</version>
-                <configuration>
-                    <skip>true</skip>
-                    <images>
-                        <image>
-                            <name>%a:%l</name>
-                            <build>
-                                <from>https://192.168.99.102:8443/adoptopenjdk/openjdk8</from>
-                                <tags>
-                                    <tag>latest</tag>
-                                </tags>
-                                <assembly>
-                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
-                                </assembly>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>3.5.37</version>
+                <executions>
+                    <execution>
+                        <id>fmp</id>
+                        <goals>
+                            <goal>resource</goal>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
